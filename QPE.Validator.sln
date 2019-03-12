@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QPE.Validator", "QPE.Validator\QPE.Validator.csproj", "{A2F39A7E-6D11-47CC-B533-3B964DF6AFA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.NetFramework", "Test.NetFramework\Test.NetFramework.csproj", "{4F8780A6-670F-4B01-BB91-291BEC21EC73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A2F39A7E-6D11-47CC-B533-3B964DF6AFA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2F39A7E-6D11-47CC-B533-3B964DF6AFA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2F39A7E-6D11-47CC-B533-3B964DF6AFA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F8780A6-670F-4B01-BB91-291BEC21EC73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F8780A6-670F-4B01-BB91-291BEC21EC73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F8780A6-670F-4B01-BB91-291BEC21EC73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F8780A6-670F-4B01-BB91-291BEC21EC73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
