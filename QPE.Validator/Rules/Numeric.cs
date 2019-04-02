@@ -2,15 +2,11 @@
 {
     internal class Numeric : IRule
     {
-        public string Name => throw new System.NotImplementedException();
-
-        public string ErrorMessage => throw new System.NotImplementedException();
-
-        public string SuccessMessage => throw new System.NotImplementedException();
+        public string Name => "Numeric";
 
         public bool IsValid(object value)
         {
-            throw new System.NotImplementedException();
+            return value != null && int.TryParse(value.ToString(), out int _);
         }
     }
 }

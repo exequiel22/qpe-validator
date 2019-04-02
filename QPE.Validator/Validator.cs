@@ -1,81 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace QPE.Validator
 {
     public class Validator
     {
-        private readonly List<IRule> _rules;
-
-        public event EventHandler<EventArgs> Validating;
-
-        public event EventHandler<EventArgs> Validated;
-
-        private List<ValidatorError> Errors => new List<ValidatorError>();
+        private readonly List<RuleFor> rulesFor;
 
         public Validator()
         {
-            _rules = new List<IRule>();
+            //Config = config ?? new ValidatorConfig();
+            rulesFor = new List<RuleFor>();
         }
 
-        public IRule this[string name] => _rules.Find(r => r.Name == name);
+        //public ValidatorConfig Config { get; }
+        public IEnumerable<RuleError> Errors { get; private set; }
 
-        public void AddRule(IRule rule)
+        public void AddRuleFor<T>(string name, Func<T, object> getter, params IRule[] rules)
         {
-            if (!_rules.Exists(r => r.Name == rule.Name))
-                _rules.Add(rule);
-            else
-                throw new Exception($"the rule \"{rule.Name}\" is already exist");
+            this.rulesFor.Add(new RuleFor(name, getter, rules));
         }
 
-        public void RemoveRule(IRule rule)
+        public void AddRuleFor<T>(string name, Func<T, object> getter, params string[] ruleExpressions)
         {
-            _rules.Remove(rule);
+            foreach (var r in ruleExpressions)
+                this.rulesFor.Add(new RuleFor(name, getter, Rules.ByExpression(r)));
         }
 
-        public void ClearRules()
+        public void Clear()
         {
-            _rules.Clear();
+            this.rulesFor.Clear();
         }
 
-        public bool ValidateAll(object value)
+        public IEnumerable<RuleError> ValidateAll(object obj)
         {
-            Errors.Clear();
-            Validating?.Invoke(this, new EventArgs());
-            bool isValid = _rules.TrueForAll(rule =>
-             {
-                 bool res = Validate(value, rule);
+            foreach (var rf in rulesFor)
+            {
+                object value = rf.Getter.DynamicInvoke(obj);
 
-                 if (!res)//Is Error
-                     Errors.Add(new ValidatorError(rule.ErrorMessage));
-
-                 return res;
-             });
-            Validated?.Invoke(this, new EventArgs());
-            return isValid;
+                foreach (var r in rf.Rules)
+                {
+                    if (!r.IsValid(value))
+                    {
+                        yield return new RuleError(this, rf, r);
+                    }
+                }
+            }
         }
 
-        public static bool Validate(object value, IRule rule)
+        public Task<IEnumerable<RuleError>> ValidateAllAsync(object obj)
         {
-            return rule.IsValid(value);
-        }
-
-        public static bool Validate(object value, IEnumerable<IRule> rules)
-        {
-            foreach (IRule r in rules)
-                if (!Validate(value, r))
-                    return false;
-            return true;
-        }
-
-        public static bool Validate(object value, params IRule[] rules)
-        {
-            return Validate(value, (IEnumerable<IRule>)rules);
-        }
-
-        public IEnumerable<ValidatorError> GetErrors()
-        {
-            return Errors;
+            return Task.Run(() => ValidateAll(obj));
         }
     }
 }

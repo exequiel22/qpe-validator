@@ -4,17 +4,13 @@
     {
         public Required()
         {
+
+
         }
 
-        public Required(string displayFieldName)
-        {
-            DisplayFieldName = displayFieldName;
-        }
-
-        public string DisplayFieldName { get; set; }
-        public string ErrorMessage => $"El campo {DisplayFieldName ?? ""} es un campo obligatorio.";
         public string Name => "Required";
-        public string SuccessMessage => $"OK";
+
+        public string ErrorMessage { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public bool IsValid(object value)
         {

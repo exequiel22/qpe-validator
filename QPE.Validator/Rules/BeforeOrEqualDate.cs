@@ -13,9 +13,10 @@ namespace QPE.Validator
 
         public string Name => "BeforeOrEqualDate";
 
-        public string ErrorMessage => throw new NotImplementedException();
 
         public string SuccessMessage => throw new NotImplementedException();
+
+        public string ErrorMessage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public bool IsValid(object value)
         {

@@ -13,7 +13,7 @@ namespace QPE.Validator
 
         public string Name => "BeforeDate";
 
-        public string ErrorMessage => throw new NotImplementedException();
+        public string ErrorMessage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public string SuccessMessage => throw new NotImplementedException();
 

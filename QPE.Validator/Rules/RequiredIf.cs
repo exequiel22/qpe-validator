@@ -6,13 +6,9 @@ namespace QPE.Validator
     {
         public string Name => "RequiredIf";
 
-        public string ErrorMessage => "";
-
-        public string SuccessMessage => "";
-
         private Func<bool> expression;
 
-        public string DisplayFieldName { get; set; }
+        public string ErrorMessage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public RequiredIf(Func<bool> conditionalFunc)
         {
@@ -23,7 +19,7 @@ namespace QPE.Validator
         {
             if (expression.Invoke())
             {
-                return new Required(DisplayFieldName).IsValid(value);
+                return new Required().IsValid(value);
             }
             return true;
         }
