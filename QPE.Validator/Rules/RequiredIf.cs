@@ -1,26 +1,24 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace QPE.Validator
 {
     internal sealed class RequiredIf : IRule
     {
+        private Expression<Func<bool>> expression;
+
         public string Name => "RequiredIf";
 
-        private Func<bool> expression;
 
-        public string ErrorMessage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public RequiredIf(Func<bool> conditionalFunc)
+        public RequiredIf(Expression<Func<bool>> expression)
         {
-            this.expression = conditionalFunc;
+            this.expression = expression;
         }
 
         public bool IsValid(object value)
         {
-            if (expression.Invoke())
-            {
+            if (expression.TailCall)
                 return new Required().IsValid(value);
-            }
             return true;
         }
     }

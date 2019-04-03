@@ -9,6 +9,9 @@
 * GreaterOrEqual value
 * LessThan value
 * LessOrEqual value
+* Regex
+* NotRegex
+* Date
 
 ### Example
 ```csharp

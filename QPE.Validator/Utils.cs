@@ -6,9 +6,6 @@ namespace QPE.Validator
     {
         public static IRule GetRuleByExpression(string expression)
         {
-            //Required
-            //GraterOrEqual 12|324
-
             try
             {
                 System.Collections.ArrayList arrayList = new System.Collections.ArrayList();
