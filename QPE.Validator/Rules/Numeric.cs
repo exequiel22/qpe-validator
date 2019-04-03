@@ -1,4 +1,6 @@
-﻿namespace QPE.Validator
+﻿using System.Text.RegularExpressions;
+
+namespace QPE.Validator
 {
     internal class Numeric : IRule
     {
@@ -6,7 +8,7 @@
 
         public bool IsValid(object value)
         {
-            return value != null && int.TryParse(value.ToString(), out int _);
+            return value != null && Regex.IsMatch(value.ToString(), @"^\d+$");
         }
     }
 }

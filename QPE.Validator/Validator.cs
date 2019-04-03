@@ -10,12 +10,8 @@ namespace QPE.Validator
 
         public Validator()
         {
-            //Config = config ?? new ValidatorConfig();
             rulesFor = new List<RuleFor>();
         }
-
-        //public ValidatorConfig Config { get; }
-        public IEnumerable<RuleError> Errors { get; private set; }
 
         public void AddRuleFor<T>(string name, Func<T, object> getter, params IRule[] rules)
         {
@@ -33,7 +29,26 @@ namespace QPE.Validator
             this.rulesFor.Clear();
         }
 
-        public IEnumerable<RuleError> ValidateAll(object obj)
+        public IEnumerable<RuleError> Validate<T>(T obj, string fieldName)
+            where T : class
+        {
+            var all = rulesFor.FindAll(r => r.Name == fieldName);
+            foreach (var rf in all)
+            {
+                object value = rf.Getter.DynamicInvoke(obj);
+
+                foreach (var r in rf.Rules)
+                {
+                    if (!r.IsValid(value))
+                    {
+                        yield return new RuleError(this, rf, r);
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<RuleError> ValidateAll<T>(T obj)
+            where T : class
         {
             foreach (var rf in rulesFor)
             {
@@ -49,7 +64,8 @@ namespace QPE.Validator
             }
         }
 
-        public Task<IEnumerable<RuleError>> ValidateAllAsync(object obj)
+        public Task<IEnumerable<RuleError>> ValidateAllAsync<T>(T obj)
+            where T : class
         {
             return Task.Run(() => ValidateAll(obj));
         }
