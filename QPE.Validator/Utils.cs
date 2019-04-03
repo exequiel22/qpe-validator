@@ -11,8 +11,10 @@ namespace QPE.Validator
 
             try
             {
+                System.Collections.ArrayList arrayList = new System.Collections.ArrayList();
+
                 string[] array = expression.Split(' ');
-                object[] parameters = null;
+                string[] parameters = null;
 
                 string name = array[0];
                 var method = typeof(Rules).GetMethod(name);
@@ -24,15 +26,12 @@ namespace QPE.Validator
                     {
                         for (int i = 0; i < parameters.Length; i++)
                         {
-                            parameters[i] = Convert.ChangeType(parameters[i], paramsInfo[i].ParameterType);
+                            arrayList.Add(Convert.ChangeType(parameters[i], paramsInfo[i].ParameterType));
                         }
                     }
-
                 }
 
-
-
-                return (IRule)method.Invoke(null, parameters);
+                return (IRule)method.Invoke(null, arrayList.ToArray());
             }
             catch (Exception ex)
             {
